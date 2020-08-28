@@ -48,11 +48,22 @@ public class Booked extends AbstractEvent {
     public void setPrice(Long price) {
         this.price = price;
     }
-    public String getOrderStatus() {
-        return orderStatus;
+    public String getOrderStatus() { return orderStatus;
     }
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
+
+
+    public Booking toEntity() {
+        return Booking.builder().customerId(customerId)
+                .seatIdList(seatIdList)
+                .quantity(quantity)
+                .price(price)
+                .orderStatus(orderStatus)
+                .build();
+    }
+
 }
+

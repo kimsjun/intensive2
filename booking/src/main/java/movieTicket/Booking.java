@@ -1,6 +1,8 @@
 package movieTicket;
 
 import javax.persistence.*;
+
+import lombok.Builder;
 import org.springframework.beans.BeanUtils;
 import java.util.List;
 
@@ -27,6 +29,10 @@ public class Booking {
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
 
         movieTicket.external.PaymentHistory paymentHistory = new movieTicket.external.PaymentHistory();
+        paymentHistory.setBookingId(this.getBookingId());
+        if (this.getSeatIdList() != null) {
+            paymentHistory.setTotalPrice((double) this.getSeatIdList().split(",").length);
+        }
         // mappings goes here
         BookingApplication.applicationContext.getBean(movieTicket.external.PaymentHistoryService.class)
             .makePayment(paymentHistory);
@@ -87,7 +93,13 @@ public class Booking {
         this.orderStatus = orderStatus;
     }
 
-
-
+    @Builder
+    public Booking(Long customerId, String seatIdList, Long quantity, Long price, String orderStatus) {
+        this.customerId = customerId;
+        this.seatIdList = seatIdList;
+        this.quantity = quantity;
+        this.price = price;
+        this.orderStatus = orderStatus;
+    }
 
 }

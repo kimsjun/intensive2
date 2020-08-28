@@ -1,6 +1,8 @@
 package movieTicket;
 
 import javax.persistence.*;
+
+import lombok.Builder;
 import org.springframework.beans.BeanUtils;
 import java.util.List;
 
@@ -13,7 +15,6 @@ public class PaymentHistory {
     private Long paymentId;
     private Long bookingId;
     private Double totalPrice;
-    private String paymentStatus;
     private String paymentStatus;
 
     @PostPersist
@@ -59,15 +60,11 @@ public class PaymentHistory {
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
 
-    public void setPaymentStatus(String paymentStatus) {
+    @Builder
+    public PaymentHistory(Long bookingId, Double totalPrice, String paymentStatus) {
+        this.bookingId = bookingId;
+        this.totalPrice = totalPrice;
         this.paymentStatus = paymentStatus;
     }
-
-
-
-
 }
